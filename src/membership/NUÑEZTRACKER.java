@@ -1,0 +1,128 @@
+package NUÑEZTRACKER;
+    
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+public class NUÑEZTRACKER extends JFrame {
+
+    private JTextField expenseNameField;
+    private JTextField amountField;
+    private JTextArea expenseListArea;
+    private JLabel totalLabel;
+
+    private ArrayList<Double> expenses = new ArrayList<>();
+    private double total = 0.0;
+
+    public NUÑEZTRACKER() {
+        setTitle("NUÑEZ TRACKER");
+        setSize(430, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null); 
+        setLayout(null);
+
+        // Title
+        JLabel titleLabel = new JLabel("Expense Tracker");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setBounds(130, 10, 200, 30);
+        add(titleLabel);
+
+        // Expense Name Label
+        JLabel nameLabel = new JLabel("Expense Name:");
+        nameLabel.setBounds(20, 60, 120, 25);
+        add(nameLabel);
+
+        // Expense Name Field
+        expenseNameField = new JTextField();
+        expenseNameField.setBounds(140, 60, 250, 25);
+        add(expenseNameField);
+
+        // Amount Label
+        JLabel amountLabel = new JLabel("Amount (₱):");
+        amountLabel.setBounds(20, 95, 120, 25);
+        add(amountLabel);
+
+        // Amount Field
+        amountField = new JTextField();
+        amountField.setBounds(140, 95, 250, 25);
+        add(amountField);
+
+        // Add Button
+        JButton addButton = new JButton("Add Expense");
+        addButton.setBounds(140, 130, 150, 30);
+        add(addButton);
+
+        // Expense List Area
+        expenseListArea = new JTextArea();
+        expenseListArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(expenseListArea);
+        scrollPane.setBounds(20, 180, 370, 200);
+        add(scrollPane);
+
+        // Total Label
+        totalLabel = new JLabel("Total: ₱0.00");
+        totalLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        totalLabel.setBounds(20, 390, 200, 30);
+        add(totalLabel);
+
+        // Clear Button
+        JButton clearButton = new JButton("Clear List");
+        clearButton.setBounds(20, 430, 150, 30);
+        add(clearButton);
+
+        // Exit Button
+        JButton exitButton = new JButton("Exit");
+        exitButton.setBounds(240, 430, 150, 30);
+        add(exitButton);
+
+        // Add Button Function
+        addButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String name = expenseNameField.getText();
+                String amountText = amountField.getText();
+
+                if (name.isEmpty() || amountText.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Please fill out all fields!");
+                    return;
+                }
+
+                try {
+                    double amount = Double.parseDouble(amountText);
+                    expenses.add(amount);
+                    total += amount;
+
+                    expenseListArea.append(name + " - ₱" + amount + "\n");
+                    totalLabel.setText("Total: ₱" + total);
+
+                    expenseNameField.setText("");
+                    amountField.setText("");
+
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Amount must be a number!");
+                }
+            }
+        });
+
+        // Clear List Button Function
+        clearButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                expenses.clear();
+                total = 0;
+                expenseListArea.setText("");
+                totalLabel.setText("Total: ₱0.00");
+            }
+        });
+
+        // Exit Button Function
+        exitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+    }
+
+    public static void main(String[] args) {
+        new NUÑEZTRACKER().setVisible(true);
+    }
+}
