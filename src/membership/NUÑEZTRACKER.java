@@ -1,4 +1,4 @@
-package NUÑEZTRACKER;
+package membership;
     
 import javax.swing.*;
 import java.awt.*;
@@ -126,3 +126,4 @@ public class NUÑEZTRACKER extends JFrame {
         new NUÑEZTRACKER().setVisible(true);
     }
 }
+
